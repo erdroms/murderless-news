@@ -10,7 +10,7 @@ export const ArticleShortPhoto = ({ multimedia }: ArticleShortPhotoProps) => {
   return (
     <figure className="mb-4">
       <img src={coverPhoto.url} alt={coverPhoto.caption} />
-      <figcaption>{coverPhoto.caption}</figcaption>
+      <figcaption className="italic">{coverPhoto.caption}</figcaption>
     </figure>
   );
 };

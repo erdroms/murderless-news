@@ -3,17 +3,31 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Article, NYTResponse } from "api/types/nyt";
 import { ArticleShort } from "~/components/Article/Short/ArticleShort";
+import { HiddenArticlesSection } from "~/components/ArticleList/HiddenArticlesSection";
+import { Page } from "~/components/containers/Page";
+import type { FilterCategory } from "~/constants";
+import { DEFAULT_FILTER_CATEGORIES } from "~/constants";
 
 interface GroupedArticles {
   murderless: Article[];
   murdery: Article[];
 }
 
-const filters = ["kill", "murder", "shooting", "trump", "bomb", "dead"];
-const matchesFilter = (title: string) =>
-  filters.some((filter) => title.toLowerCase().includes(filter));
+const matchesFilter = (test: string[], includedCategoryIds?: string[]) => {
+  const filteredCategories = DEFAULT_FILTER_CATEGORIES.filter(
+    (cat) => !includedCategoryIds?.includes(cat.id)
+  );
 
-export const loader: LoaderFunction = async () => {
+  let testString = typeof test === "string" ? test : test.join(" ");
+
+  return filteredCategories.some((category: FilterCategory) =>
+    category.filters.some((filter) => testString.toLowerCase().includes(filter))
+  );
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const includedCategoryIds = new URL(request.url).searchParams.getAll("show");
+
   const res = await fetch(
     "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=MNwN1ovbEnjSrtH9r1kTLsQxCEuBqTlh",
     {
@@ -26,7 +40,12 @@ export const loader: LoaderFunction = async () => {
   const groupedResults = results.reduce(
     (grouped: GroupedArticles, curr: Article) => {
       const title = curr.title || "";
-      const isMurdery = matchesFilter(title);
+      const abstract = curr.abstract || "";
+      const caption = curr.multimedia?.[0].caption || "";
+      const isMurdery = matchesFilter(
+        [title, abstract, caption],
+        includedCategoryIds
+      );
 
       if (isMurdery) {
         grouped.murdery.push(curr);
@@ -46,26 +65,21 @@ export default function Top() {
   const { murdery, murderless } = useLoaderData<GroupedArticles>();
 
   return (
-    <>
-      <h1 className="text-3xl">Top stories</h1>
-      <div className="grid grid-cols-8 gap-6">
-        <section className="col-start-2 col-span-4">
-          <div className="grid grid-cols-1 auto-rows-auto gap-6">
-            {murderless.map((article) => {
-              return <ArticleShort key={article.url} article={article} />;
-            })}
+    <Page>
+      <h1 className="text-6xl mb-6">Top stories</h1>
+
+      <div className="grid">
+        <section className="order-last">
+          <div className="grid grid-cols-1 auto-rows-auto gap-6 my-6">
+            {murderless.map((article) => (
+              <ArticleShort key={article.url} article={article} />
+            ))}
           </div>
         </section>
-        <section className="col-span-2">
-          <h3 className="text-lg">
-            🙈 We hid {murdery.length} murdery articles from you.
-          </h3>
-          <p>
-            If you're feeling brave today, you can display the titles by
-            clicking here
-          </p>
-        </section>
+        <aside>
+          <HiddenArticlesSection articles={murdery} />
+        </aside>
       </div>
-    </>
+    </Page>
   );
 }

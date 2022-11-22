@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,12 +7,21 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-
+import { useState } from "react";
+import type { FilterCategory } from "./constants";
+import { DEFAULT_FILTER_CATEGORIES } from "./constants";
+import { FilterContext } from "./contexts/FilterContext";
 import styles from "./styles/app.css";
 
-export function links() {
-  return [{ rel: "stylesheet", href: styles }];
-}
+export const links: LinksFunction = () => {
+  return [
+    { rel: "stylesheet", href: styles },
+    {
+      rel: "stylesheet",
+      href: "https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css",
+    },
+  ];
+};
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -21,6 +30,10 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
+  const [filterCategories, setFilterCategories] = useState<FilterCategory[]>(
+    DEFAULT_FILTER_CATEGORIES
+  );
+
   return (
     <html lang="en">
       <head>
@@ -28,7 +41,14 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <FilterContext.Provider
+          value={{
+            categories: filterCategories,
+            updateCategories: setFilterCategories,
+          }}
+        >
+          <Outlet />
+        </FilterContext.Provider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
