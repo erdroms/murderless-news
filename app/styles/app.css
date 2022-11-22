@@ -907,6 +907,35 @@ video {
   border-radius: 9999px;
 }
 
+.border-4 {
+  border-width: 4px;
+}
+
+.border-teal-light\/\[\.3\] {
+  border-color: rgb(122 175 168 / .3);
+}
+
+.border-teal-light {
+  --tw-border-opacity: 1;
+  border-color: rgb(122 175 168 / var(--tw-border-opacity));
+}
+
+.border-teal-light\/\[\.4\] {
+  border-color: rgb(122 175 168 / .4);
+}
+
+.border-\[\#FCD397\]\/\[\.4\] {
+  border-color: rgb(252 211 151 / .4);
+}
+
+.border-\[\#FCD397\]\/\[\.9\] {
+  border-color: rgb(252 211 151 / .9);
+}
+
+.border-\[\#FCD397\]\/\[\.6\] {
+  border-color: rgb(252 211 151 / .6);
+}
+
 .bg-mustard {
   --tw-bg-opacity: 1;
   background-color: rgb(254 182 64 / var(--tw-bg-opacity));

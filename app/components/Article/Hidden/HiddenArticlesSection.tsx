@@ -18,7 +18,7 @@ export const HiddenArticlesSection = ({
   }
 
   return (
-    <section className="bg-teal-light/[.3] rounded-md py-2 px-4 text-sm shadow-md">
+    <section className="border-4 border-[#FCD397]/[.4] rounded-md py-2 px-4 text-sm shadow-sm">
       <HiddenArticlesCTA
         show={revealEvil}
         onToggle={toggleEvil}
