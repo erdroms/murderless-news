@@ -31,7 +31,7 @@ const Title = ({ hidden, count }: TitleProps) => {
     ? `${count} murdery articles were hidden`
     : "Ack! Too scary!";
 
-  return <p className="my-2 text-lg leading-tight">{message}</p>;
+  return <p className="mt-1 mb-2 text-lg leading-tight">{message}</p>;
 };
 
 interface IconProps {

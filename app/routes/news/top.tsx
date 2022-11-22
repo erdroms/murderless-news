@@ -4,7 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import type { Article, NYTResponse } from "api/types/nyt";
 import { ArticleShort } from "~/components/Article/Short/ArticleShort";
 import { HiddenArticlesSection } from "~/components/ArticleList/HiddenArticlesSection";
-import { Page } from "~/components/containers/Page";
+import { Page } from "~/components/Page";
 import type { FilterCategory } from "~/constants";
 import { DEFAULT_FILTER_CATEGORIES } from "~/constants";
 
@@ -66,7 +66,7 @@ export default function Top() {
 
   return (
     <Page>
-      <h1 className="text-6xl mb-6">Top stories</h1>
+      <h1 className="text-4xl my-6">Top stories</h1>
 
       <div className="grid">
         <section className="order-last">
