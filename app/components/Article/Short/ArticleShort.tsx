@@ -11,7 +11,7 @@ export const ArticleShort = ({ article }: ArticleShortProps) => {
   return (
     <article className="mb-6 max-w-2xl">
       <ArticleShortPhoto multimedia={article.multimedia} />
-      <ArticleShortTitle title={article.title} />
+      <ArticleShortTitle title={article.title} url={article.url} />
       <ArticleShortAbstract abstract={article.abstract} />
     </article>
   );
