@@ -41,14 +41,16 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <FilterContext.Provider
-          value={{
-            categories: filterCategories,
-            updateCategories: setFilterCategories,
-          }}
-        >
-          <Outlet />
-        </FilterContext.Provider>
+        <main>
+          <FilterContext.Provider
+            value={{
+              categories: filterCategories,
+              updateCategories: setFilterCategories,
+            }}
+          >
+            <Outlet />
+          </FilterContext.Provider>
+        </main>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

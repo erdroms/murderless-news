@@ -34,7 +34,7 @@ const StabbySVG = (props: SVGProps<SVGSVGElement>) => (
 
 export const Stabby = () => {
   return (
-    <span className="inline-block translate-y-2">
+    <span className="inline-block translate-y-0.5">
       <span className="inline-block animate-wiggle w-10 h-10">
         <StabbySVG />
       </span>

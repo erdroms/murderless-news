@@ -8,9 +8,11 @@ export const ArticleShortPhoto = ({ multimedia }: ArticleShortPhotoProps) => {
   if (!coverPhoto) return null;
 
   return (
-    <figure className="mb-4">
+    <figure className="max-w-[600px]">
       <img src={coverPhoto.url} alt={coverPhoto.caption} />
-      <figcaption className="italic">{coverPhoto.caption}</figcaption>
+      <figcaption className="italic text-sm text-slate mt-1">
+        {coverPhoto.caption}
+      </figcaption>
     </figure>
   );
 };

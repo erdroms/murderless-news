@@ -1,5 +1,6 @@
 import { Form, useSubmit } from "@remix-run/react";
 import type { FilterCategory } from "~/constants";
+import { CategoryBubble } from "../CategoryBubble";
 
 interface FiltersProps {
   categories: FilterCategory[];
@@ -16,11 +17,16 @@ export const Filters = ({ categories, shownCategories = [] }: FiltersProps) => {
     >
       {categories.map((category) => {
         const isHidden = !shownCategories.includes(category.id);
+        const backgroundColor = isHidden ? "bg-grey" : "bg-teal";
+        const iconBackgroundColor = isHidden
+          ? "bg-grey/[0.3]"
+          : "bg-white/[0.75]";
+        const eyeCon = isHidden ? "ri-eye-close-line" : "ri-eye-line";
 
         return (
           <label
             key={category.id}
-            className={`rounded-md p-4  ${isHidden ? "bg-grey" : "bg-teal"}`}
+            className={`rounded-md px-4 py-2 ${backgroundColor}`}
           >
             <input
               type="checkbox"
@@ -29,14 +35,17 @@ export const Filters = ({ categories, shownCategories = [] }: FiltersProps) => {
               value={category.id}
               defaultChecked={!isHidden}
             />
-            <span className="flex items-center text-dark text-lg">
-              <i
-                className={`${
-                  isHidden ? "ri-eye-close-line" : "ri-eye-line"
-                } text-2xl`}
+            <div className="flex items-center text-dark text-lg">
+              <i className={`${eyeCon} text-2xl`} />
+              <span className="mx-4">{category.title}</span>
+              <CategoryBubble
+                backgroundColor={iconBackgroundColor}
+                icon={{
+                  name: category.icon.name,
+                  color: isHidden ? "text-dark/[0.2]" : category.icon.color,
+                }}
               />
-              <span className="ml-4">{category.title}</span>
-            </span>
+            </div>
           </label>
         );
       })}

@@ -1,11 +1,21 @@
 import type { Article } from "api/types/nyt";
 
-type ArticleShortTitleProps = Pick<Article, "title" | "url">;
-
-export const ArticleShortTitle = ({ title, url }: ArticleShortTitleProps) => {
-  return (
-    <a href={url}>
-      <h2 className="text-2xl mb-2 underline text-deep">{title}</h2>
-    </a>
-  );
+type ArticleShortTitleProps = Pick<Article, "title" | "url"> & {
+  collapsed?: boolean;
 };
+
+export const ArticleShortTitle = ({
+  title,
+  url,
+  collapsed = false,
+}: ArticleShortTitleProps) => (
+  <a href={url} className="overflow-hidden">
+    <h2
+      className={`${
+        collapsed ? "text-sm truncate" : "text-2xl"
+      } underline text-deep}`}
+    >
+      {title}
+    </h2>
+  </a>
+);

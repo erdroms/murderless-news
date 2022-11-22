@@ -12,19 +12,24 @@ export default function Index() {
     <FilterContext.Consumer>
       {({ categories }) => (
         <Page>
-          <div className="my-6">
-            <Intro />
-          </div>
+          <div className="mx-4">
+            <div className="my-6">
+              <Intro />
+            </div>
 
-          <Filters categories={categories} shownCategories={shownCategories} />
+            <Filters
+              categories={categories}
+              shownCategories={shownCategories}
+            />
 
-          <div className="mt-10">
-            <Link
-              className="block rounded-md py-4 px-8 bg-mustard text-lg"
-              to={`/news/top?${searchParams.toString()}`}
-            >
-              Let's see some news!
-            </Link>
+            <div className="mt-12 text-center">
+              <Link
+                className="rounded-md py-4 px-12 bg-mustard text-lg"
+                to={`/news/top?${searchParams.toString()}`}
+              >
+                Let's see some news!
+              </Link>
+            </div>
           </div>
         </Page>
       )}

@@ -16,3 +16,13 @@
     text-shadow: none;
   }
 }
+
+@layer components {
+  .link {
+    color: #1a0dab;
+    text-decoration: underline;
+  }
+  .link:hover {
+    color: #681da8;
+  }
+}

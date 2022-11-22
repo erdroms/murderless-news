@@ -12,11 +12,17 @@ export const HiddenArticlesCTA = ({
   onToggle,
 }: HiddenArticlesCTAProps) => {
   return (
-    <div className="flex">
+    <div className="flex items-center">
       <Icon hidden={!show} />
-      <div className="ml-4">
+      <div className="ml-2">
         <Title hidden={!show} count={hiddenCount} />
-        <Button hidden={!show} onClick={onToggle} />
+      </div>
+      <div className="ml-auto flex-shrink-0">
+        {hiddenCount === 0 ? (
+          <p className="text-slate">You're so brave!</p>
+        ) : (
+          <Button hidden={!show} onClick={onToggle} />
+        )}
       </div>
     </div>
   );
@@ -29,9 +35,9 @@ interface TitleProps {
 const Title = ({ hidden, count }: TitleProps) => {
   const message = hidden
     ? `${count} murdery articles were hidden`
-    : "Ack! Too scary!";
+    : "Eeek! Too scary!";
 
-  return <p className="mt-1 mb-2 text-lg leading-tight">{message}</p>;
+  return <p className="text-dark italic leading-tight">{message}</p>;
 };
 
 interface IconProps {
@@ -39,7 +45,7 @@ interface IconProps {
 }
 const Icon = ({ hidden }: IconProps) => {
   return (
-    <span className="text-3xl">{hidden ? SEE_NO_EVIL : HEAR_NO_EVIL}</span>
+    <span className="text-2xl">{hidden ? SEE_NO_EVIL : HEAR_NO_EVIL}</span>
   );
 };
 

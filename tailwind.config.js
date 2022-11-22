@@ -7,12 +7,13 @@ module.exports = {
         dark: "#041421",
         deep: "#042630",
         slate: "#4c7273",
-        teal: "#86b9b0",
+        teal: "#9FE3D8",
+        "teal-light": "#7aafa8",
         grey: "#d0d6d6",
         mustard: "#feb640",
       },
       animation: {
-        wiggle: 'wiggle 1s ease-in-out infinite',
+        wiggle: "wiggle 1s ease-in-out infinite",
       },
       keyframes: {
         wiggle: {

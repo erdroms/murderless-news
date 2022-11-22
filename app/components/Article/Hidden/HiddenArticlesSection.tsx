@@ -1,9 +1,11 @@
 import type { Article } from "api/types/nyt";
 import { useState } from "react";
+import type { FilterCategory } from "~/constants";
+import { HiddenArticles } from "./HiddenArticles";
 import { HiddenArticlesCTA } from "./HiddenArticlesCTA";
 
 interface HiddenArticlesSectionProps {
-  articles: Article[];
+  articles: { article: Article; categories: FilterCategory[] }[];
 }
 
 export const HiddenArticlesSection = ({
@@ -14,19 +16,16 @@ export const HiddenArticlesSection = ({
   function toggleEvil() {
     setRevealEvil((prev) => !prev);
   }
+
   return (
-    <section className="bg-yellow-100 rounded-md p-4 transition-all">
+    <section className="bg-teal-light/[.3] rounded-md py-2 px-4 text-sm shadow-md">
       <HiddenArticlesCTA
         show={revealEvil}
         onToggle={toggleEvil}
         hiddenCount={articles.length}
       />
-      {revealEvil &&
-        articles.map((article) => (
-          <h4 key={article.url} className="mt-4 italic">
-            {article.title}
-          </h4>
-        ))}
+
+      {revealEvil && <HiddenArticles articles={articles} />}
     </section>
   );
 };

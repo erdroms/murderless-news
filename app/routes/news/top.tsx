@@ -3,27 +3,73 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Article, NYTResponse } from "api/types/nyt";
 import { ArticleShort } from "~/components/Article/Short/ArticleShort";
-import { HiddenArticlesSection } from "~/components/ArticleList/HiddenArticlesSection";
+import { HiddenArticlesSection } from "~/components/Article/Hidden/HiddenArticlesSection";
+import { HomeLink } from "~/components/HomeLink";
 import { Page } from "~/components/Page";
 import type { FilterCategory } from "~/constants";
 import { DEFAULT_FILTER_CATEGORIES } from "~/constants";
 
 interface GroupedArticles {
   murderless: Article[];
-  murdery: Article[];
+  murdery: { article: Article; categories: FilterCategory[] }[];
 }
 
-const matchesFilter = (test: string[], includedCategoryIds?: string[]) => {
-  const filteredCategories = DEFAULT_FILTER_CATEGORIES.filter(
-    (cat) => !includedCategoryIds?.includes(cat.id)
+function categorizeArticles(
+  articles: Article[],
+  includedCategoryIds?: string[]
+): GroupedArticles {
+  const categorized = articles.reduce(
+    (grouped: GroupedArticles, curr: Article) => {
+      const title = curr.title || "";
+      const abstract = curr.abstract || "";
+      const caption = curr.multimedia?.[0].caption || "";
+
+      const { isMurdery, categories } = getMurderCategory(
+        [title, abstract, caption],
+        includedCategoryIds
+      );
+
+      if (isMurdery) {
+        grouped.murdery.push({ article: curr, categories });
+      } else {
+        grouped.murderless.push(curr);
+      }
+
+      return grouped;
+    },
+    { murdery: [], murderless: [] }
   );
 
-  let testString = typeof test === "string" ? test : test.join(" ");
+  return categorized;
+}
 
-  return filteredCategories.some((category: FilterCategory) =>
-    category.filters.some((filter) => testString.toLowerCase().includes(filter))
+function getMurderCategory(
+  test: string[],
+  displayedCategoryIds?: string[]
+): { isMurdery: boolean; categories: FilterCategory[] } {
+  // search on all testable values
+  const testString = test.join(" ");
+
+  // get the list of categories to hide
+  const hiddenCategories = DEFAULT_FILTER_CATEGORIES.filter(
+    (cat) => !displayedCategoryIds?.includes(cat.id)
   );
-};
+
+  let categoryMatches = [];
+
+  for (let i = 1; i < hiddenCategories.length; i++) {
+    const filters = hiddenCategories[i]?.filters || [];
+
+    if (filters.some((filter) => testString.toLowerCase().includes(filter))) {
+      categoryMatches.push(hiddenCategories[i]);
+    }
+  }
+
+  return {
+    isMurdery: categoryMatches.length > 0,
+    categories: categoryMatches,
+  };
+}
 
 export const loader: LoaderFunction = async ({ request }) => {
   const includedCategoryIds = new URL(request.url).searchParams.getAll("show");
@@ -37,28 +83,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const { results = [] }: NYTResponse = await res.json();
 
-  const groupedResults = results.reduce(
-    (grouped: GroupedArticles, curr: Article) => {
-      const title = curr.title || "";
-      const abstract = curr.abstract || "";
-      const caption = curr.multimedia?.[0].caption || "";
-      const isMurdery = matchesFilter(
-        [title, abstract, caption],
-        includedCategoryIds
-      );
+  const categorizedResults = categorizeArticles(results, includedCategoryIds);
 
-      if (isMurdery) {
-        grouped.murdery.push(curr);
-      } else {
-        grouped.murderless.push(curr);
-      }
-
-      return grouped;
-    },
-    { murdery: [], murderless: [] }
-  );
-
-  return json(groupedResults);
+  return json(categorizedResults);
 };
 
 export default function Top() {
@@ -66,7 +93,7 @@ export default function Top() {
 
   return (
     <Page>
-      <h1 className="text-4xl my-6">Top stories</h1>
+      <Page.Heading left={<HomeLink />} title="Top stories" />
 
       <div className="grid">
         <section className="order-last">

@@ -5,5 +5,5 @@ type ArticleShortAbstractProps = Pick<Article, "abstract">;
 export const ArticleShortAbstract = ({
   abstract,
 }: ArticleShortAbstractProps) => {
-  return <p>{abstract}</p>;
+  return <p className="text-lg leading-snug">{abstract}</p>;
 };
