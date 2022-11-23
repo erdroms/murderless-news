@@ -1,7 +1,10 @@
+import type { FilterCategory } from "~/constants";
 import { HEAR_NO_EVIL, SEE_NO_EVIL } from "~/constants";
+import { CategoryIndicator } from "./CategoryIndicator";
 
 interface HiddenArticlesCTAProps {
   hiddenCount?: number;
+  hiddenCategories: FilterCategory[];
   show?: boolean;
   onToggle: () => void;
 }
@@ -10,13 +13,15 @@ export const HiddenArticlesCTA = ({
   hiddenCount = 0,
   show = false,
   onToggle,
+  hiddenCategories,
 }: HiddenArticlesCTAProps) => {
   return (
     <div className="flex items-center">
       <Icon hidden={!show} />
-      <div className="ml-2">
+      <div className="mx-2">
         <Title hidden={!show} count={hiddenCount} />
       </div>
+      <CategoryIndicator categories={hiddenCategories} />
       <div className="ml-auto flex-shrink-0">
         {hiddenCount === 0 ? (
           <p className="text-slate">You're so brave!</p>

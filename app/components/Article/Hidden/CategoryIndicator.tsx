@@ -6,14 +6,15 @@ interface CategoryIndicatorProps {
 }
 
 export const CategoryIndicator = ({ categories }: CategoryIndicatorProps) => (
-  <span className="mr-2 -ml-1">
+  <div className="flex mr-5">
     {categories.map((category) => (
-      <CategoryBubble
-        key={category.id}
-        backgroundColor="bg-white/[0.65]"
-        icon={category.icon}
-        size="small"
-      />
+      <span key={category.id} className="w-5 overflow-visible">
+        <CategoryBubble
+          backgroundColor="bg-white/[0.65]"
+          icon={category.icon}
+          size="small"
+        />
+      </span>
     ))}
-  </span>
+  </div>
 );

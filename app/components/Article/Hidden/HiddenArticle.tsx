@@ -10,7 +10,9 @@ export type HiddenArticle = {
 
 export const HiddenArticleItem = ({ article, categories }: HiddenArticle) => (
   <div className="flex items-center">
-    <CategoryIndicator categories={categories} />
+    <span className="mr-2 -ml-1">
+      <CategoryIndicator categories={categories} />
+    </span>
     <a href={article.url} className="link" key={article.url}>
       <HiddenArticleTitle
         title={article.title || "Untitled"}

@@ -57,7 +57,7 @@ function getMurderCategory(
 
   let categoryMatches = [];
 
-  for (let i = 1; i < hiddenCategories.length; i++) {
+  for (let i = 0; i < hiddenCategories.length; i++) {
     const filters = hiddenCategories[i]?.filters || [];
 
     if (filters.some((filter) => testString.toLowerCase().includes(filter))) {
