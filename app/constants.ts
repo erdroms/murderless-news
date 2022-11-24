@@ -16,7 +16,7 @@ export const DEFAULT_FILTER_CATEGORIES: FilterCategory[] = [
   {
     id: "war",
     title: "War",
-    filters: ["bomb", "massacre"],
+    filters: ["war", "bomb", "massacre"],
     icon: { name: "ri-rocket-2-fill rotate-180", color: "text-slate" },
   },
   {
