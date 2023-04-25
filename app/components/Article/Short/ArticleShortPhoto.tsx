@@ -1,17 +1,15 @@
-import type { Article } from "api/types/nyt";
+interface ArticleShortPhotoProps {
+  url: string;
+  caption?: string;
+  source?: string;
+};
 
-type ArticleShortPhotoProps = Pick<Article, "multimedia">;
-
-export const ArticleShortPhoto = ({ multimedia }: ArticleShortPhotoProps) => {
-  const coverPhoto = multimedia?.[1];
-
-  if (!coverPhoto) return null;
-
+export const ArticleShortPhoto = ({ url, caption, source }: ArticleShortPhotoProps) => {
   return (
     <figure className="max-w-[600px]">
-      <img src={coverPhoto.url} alt={coverPhoto.caption} />
+      <img src={url} alt={caption} />
       <figcaption className="italic text-sm text-slate mt-1">
-        {coverPhoto.caption}
+        {source}{caption && ` | ${caption}`}
       </figcaption>
     </figure>
   );

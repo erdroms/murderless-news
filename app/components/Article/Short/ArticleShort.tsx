@@ -1,4 +1,3 @@
-import type { Article } from "api/types/nyt";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { ArticleShortAbstract } from "./ArticleShortAbstract";
@@ -6,6 +5,7 @@ import { ArticleShortLink } from "./ArticleShortLink";
 import { ArticleShortPhoto } from "./ArticleShortPhoto";
 import { ArticleShortTitle } from "./ArticleShortTitle";
 import { ArticleShortToggle } from "./ArticleShortToggle";
+import type { Article } from "~/types/Article";
 
 interface ArticleShortProps {
   article: Article;
@@ -37,7 +37,9 @@ export const ArticleShort = ({ article }: ArticleShortProps) => {
 
       {isOpen && (
         <>
-          <ArticleShortPhoto multimedia={article.multimedia} />
+          {article.image && (
+            <ArticleShortPhoto {...article.image} source={article.source} />
+          )}
           <ArticleShortAbstract abstract={article.abstract} />
           <div className="flex justify-self-stretch items-center justify-between">
             <time dateTime={article.created_date}>

@@ -10,6 +10,10 @@ export const DEFAULT_FILTER_CATEGORIES: FilterCategory[] = [
       "gunman",
       "shooter",
       "massacre",
+      "stabbing",
+      "stabbed",
+      "shot",
+      "arrested+body"
     ],
     icon: { name: "ri-knife-blood-line -rotate-90", color: "text-red-600" },
   },
@@ -36,3 +40,18 @@ export type FilterCategory = {
 
 export const SEE_NO_EVIL = "🙈";
 export const HEAR_NO_EVIL = "🙉";
+
+export const NEWS_SOURCES = [
+  'cnn',
+  'bbc',
+  'ap',
+  'nytimes',
+  'washingtonpost',
+  'nbc',
+  'Bloomberg',
+  'thejournal',
+  'business',
+  'TechCrunch',
+  'richmondtimesdispatch',
+  "CNN Tennis"
+]

@@ -39,7 +39,7 @@ interface TitleProps {
 }
 const Title = ({ hidden, count }: TitleProps) => {
   const message = hidden
-    ? `${count} murdery articles were hidden`
+    ? `${count} murdery article${count === 1 ? "" : "s"} ${count === 1 ? "was" : "were"} hidden`
     : "Eeek! Too scary!";
 
   return <p className="text-dark italic leading-tight">{message}</p>;
